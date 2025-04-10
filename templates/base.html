@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}E-Commerce{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'product_list' %}">E-Commerce</a>
+
+    <ul class="navbar-nav ml-auto">
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' %}">Welcome, {{ user.username }}</a>
+        </li>
+        <li class="nav-item">
+            <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link nav-link" style="border: none; background: none;">Logout
+                </button>
+            </form>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+<div class="container mt-4">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

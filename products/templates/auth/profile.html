@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>User Profile</h2>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+
+    <h3>Last Watched Products</h3>
+    <ul>
+        {% for product in viewed_products %}
+            <li><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></li>
+        {% empty %}
+            <li>No recently viewed products.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
