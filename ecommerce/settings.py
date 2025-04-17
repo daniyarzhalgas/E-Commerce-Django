@@ -131,7 +131,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = "/media/"
+# MEDIA_URL = "/media/"
+
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 LOGIN_REDIRECT_URL = '/'
@@ -150,6 +151,17 @@ MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT")
 MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY")
 MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY")
 MINIO_BUCKET_NAME = os.getenv("MINIO_BUCKET_NAME")
+
+AWS_S3_CUSTOM_DOMAIN = "localhost:9000/media"
+
+AWS_S3_USE_SSL = False
+
+AWS_S3_SECURE_URLS = False
+
+AWS_S3_URL_PROTOCOL = "http:"
+
+MEDIA_URL = f"http://{AWS_S3_CUSTOM_DOMAIN}/"
+
 
 STORAGES = {
     "default": {
