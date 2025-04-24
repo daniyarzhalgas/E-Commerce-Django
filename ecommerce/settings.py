@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'products',
     'storages',
     'rest_framework',
+    'silk',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'silk.middleware.SilkyMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -162,7 +164,6 @@ AWS_S3_SECURE_URLS = False
 AWS_S3_URL_PROTOCOL = "http:"
 
 MEDIA_URL = f"http://{AWS_S3_CUSTOM_DOMAIN}/"
-
 
 STORAGES = {
     "default": {
