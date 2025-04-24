@@ -13,16 +13,17 @@ class ProductSerializer(serializers.ModelSerializer):
     category_id = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(), source='category', write_only=True
     )
+    label = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = [
             'id', 'name', 'price', 'description',
             'category', 'category_id', 'image',
-            'is_active', 'discount_percent', 'discounted_price'
+            'is_active', 'discount_percent', 'discounted_price',
+            'label'
         ]
 
-    # Валидация имени
     def validate_name(self, value):
         if not value.strip():
             raise serializers.ValidationError("Имя не может быть пустым.")
@@ -30,14 +31,17 @@ class ProductSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Имя должно быть не короче 3 символов.")
         return value
 
-    # Валидация цены
     def validate_price(self, value):
         if value <= 0:
             raise serializers.ValidationError("Цена должна быть больше 0.")
         return value
 
-    # Валидация процента скидки
     def validate_discount_percent(self, value):
         if not (0 <= value <= 100):
             raise serializers.ValidationError("Скидка должна быть от 0 до 100.")
         return value
+
+    def get_label(self, obj):
+        if obj.discount_percent and obj.discount_percent > 0:
+            return "On Sale"
+        return "Regular"
