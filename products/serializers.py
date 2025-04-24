@@ -45,3 +45,9 @@ class ProductSerializer(serializers.ModelSerializer):
         if obj.discount_percent and obj.discount_percent > 0:
             return "On Sale"
         return "Regular"
+
+
+class AveragePriceSerializer(serializers.Serializer):
+    category = CategorySerializer()
+    average_price = serializers.FloatField()
+    total_products = serializers.IntegerField()

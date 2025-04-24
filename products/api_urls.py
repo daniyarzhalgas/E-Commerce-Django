@@ -5,7 +5,7 @@ from .api_views import (
     ActiveProductListView, ProductSearchView,
     ProductByCategoryView, ProductImageUploadView,
     CategoryStatsView, ToggleProductActiveView,
-    ProductFilterByPriceView
+    ProductFilterByPriceView, AveragePriceAPIView
 )
 
 urlpatterns = [
@@ -13,7 +13,7 @@ urlpatterns = [
     path('products/<int:pk>/', ProductRetrieveUpdateDestroyView.as_view(), name='product-detail'),
     path('categories/', CategoryListCreateView.as_view(), name='category-list-create'),
     path('categories/<int:pk>/', CategoryRetrieveUpdateDestroyView.as_view(), name='category-detail'),
-    
+
     path('products/active/', ActiveProductListView.as_view(), name='active-products'),
     path('products/search/', ProductSearchView.as_view(), name='product-search'),
     path('products/by-category/<int:category_id>/', ProductByCategoryView.as_view(), name='products-by-category'),
@@ -22,4 +22,5 @@ urlpatterns = [
     path('products/<int:pk>/toggle-active/', ToggleProductActiveView.as_view(), name='toggle-product-active'),
     path('products/filter-by-price/', ProductFilterByPriceView.as_view(), name='filter-by-price'),
     path('products/search/', ProductSearchView.as_view(), name='product-search'),
+    path('products/average-prices/', AveragePriceAPIView.as_view(), name='average-prices'),
 ]

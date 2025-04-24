@@ -1,8 +1,9 @@
 from rest_framework import generics, views, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.db.models import Count
+from django.db.models import Count, Avg
 from .models import Product, Category
-from .serializers import ProductSerializer, CategorySerializer
+from .serializers import ProductSerializer, CategorySerializer, AveragePriceSerializer
 from django.db.models import Q
 
 
@@ -95,3 +96,27 @@ class ProductSearchView(generics.ListAPIView):
         return Product.objects.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
         )
+
+
+class AveragePriceAPIView(APIView):
+    def get(self, request):
+        data = (
+            Product.objects
+            .values('category_id')
+            .annotate(
+                average_price=Avg('price'),
+                total_products=Count('id')
+            )
+        )
+
+        serialized_data = []
+        for item in data:
+            category = Category.objects.get(pk=item['category_id'])
+            serializer = AveragePriceSerializer({
+                'category': category,
+                'average_price': item['average_price'],
+                'total_products': item['total_products']
+            })
+            serialized_data.append(serializer.data)
+
+        return Response(serialized_data, status=status.HTTP_200_OK)
